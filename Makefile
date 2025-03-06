@@ -1,16 +1,19 @@
 CC = gcc
-CFLAGS = -o build/mi -O3
-LIBS = -lxcb
+CFLAGS = -O3
+LIBS = -lxcb -lxcb-keysyms
 
 DIR = build
 
-all: $(DIR) BUILD
+all: mi
 
-$(DIR):
-	mkdir -p $(DIR)
+mi:
+	$(CC) wm.c -o $@ bitmap.c $(CFLAGS) $(LIBS)
 
-BUILD:
-	$(CC) wm.c $(CFLAGS) $(LIBS)
+install: all
+	cp -f mi /usr/bin
+
+uninstall:
+	rm -f /usr/bin/mi
 
 clean:
-	rm $(DIR)/mi
+	rm -f mi
